@@ -1,11 +1,20 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { addUserAction } from "../redux/action";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
+import { useNavigate } from "react-router-dom";
 const Form = () => {
   const [value, setValue] = useState({
     name: "",
     email: "",
     phone: "",
   });
+  const users = useSelector((store) => {
+    return store.users;
+  });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     if (e.target.name === "phone") {
       if (!isNaN(e.target.value)) {
@@ -25,12 +34,24 @@ const Form = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(value);
+    addUserAction(value, dispatch);
+    toast.success(`User ${value.name} added Successfully`);
+    setValue({ name: "", email: "", phone: "" });
+    setTimeout(() => {
+      navigate("/");
+    }, 4000);
   };
+  useEffect(() => {
+    console.log(users);
+    localStorage.setItem("users", JSON.stringify(users));
+  }, [users]);
   return (
     <div>
+      <ToastContainer />
       <form onSubmit={handleSubmit}>
         <div>
           <label>Name</label>
+          <br />
           <input
             type="text"
             name="name"
@@ -41,6 +62,7 @@ const Form = () => {
         </div>
         <div>
           <label>Email</label>
+          <br />
           <input
             type="email"
             name="email"
@@ -51,6 +73,7 @@ const Form = () => {
         </div>
         <div>
           <label>Phone</label>
+          <br />
           <input
             type="text"
             name="phone"
