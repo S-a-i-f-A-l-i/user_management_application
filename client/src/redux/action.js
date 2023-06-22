@@ -13,10 +13,10 @@ export const addUserAction = (value, dispatch) => {
     },
   });
 };
-export const editUserAction = (id, dispatch) => {
+export const editUserAction = (value, dispatch) => {
   dispatch({
     type: EDIT_USER,
-    payload: id,
+    payload: value,
   });
 };
 export const deleteUserAction = (id, dispatch) => {

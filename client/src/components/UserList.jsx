@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUserAction, editUserAction } from "../redux/action";
+import { deleteUserAction } from "../redux/action";
+import { useNavigate } from "react-router-dom";
 const UserList = () => {
+  const navigate = useNavigate();
   const [users, setUser] = useState([]);
   const [filters, setFilters] = useState({
     search: "",
@@ -21,11 +23,11 @@ const UserList = () => {
     });
   };
   const handleAccording = () => {
-    console.log("HANDLE ACCORDING");
+    // console.log("HANDLE ACCORDING");
     if (getUsers && getUsers.length > 0) {
       let filtersUser = [];
       for (let i = 0; i < getUsers.length; i++) {
-        console.log(typeof getUsers[i]);
+        // console.log(typeof getUsers[i]);
         for (let key in getUsers[i]) {
           if (
             getUsers[i][key]
@@ -37,8 +39,8 @@ const UserList = () => {
           }
         }
       }
-      console.log(getUsers.length);
-      console.log(filtersUser);
+      // console.log(getUsers.length);
+      // console.log(filtersUser);
       if (filters.sort === "descending") {
         const reverseArr = filtersUser.reverse();
         setUser(reverseArr);
@@ -48,6 +50,7 @@ const UserList = () => {
   };
   useEffect(() => {
     // setUser(getUsers);
+    console.log("getUsers in UserList", getUsers);
     handleAccording();
   }, [filters.search, filters.sort]);
   return (
@@ -90,7 +93,7 @@ const UserList = () => {
                     <td>{user.email}</td>
                     <td>{user.phone}</td>
                     <td>
-                      <button onClick={() => editUserAction(user.id, dispatch)}>
+                      <button onClick={() => navigate(`/edit/${user.id}`)}>
                         Edit
                       </button>
                     </td>

@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { addUserAction } from "../redux/action";
+import { useParams } from "react-router-dom";
+import { editUserAction } from "../redux/action";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { useNavigate } from "react-router-dom";
-const Form = () => {
+
+const Edit = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [value, setValue] = useState({
     name: "",
     email: "",
     phone: "",
   });
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const { id } = useParams();
+  const users = useSelector((store) => store.users);
   const handleChange = (e) => {
     if (e.target.name === "phone") {
       if (!isNaN(e.target.value)) {
@@ -30,15 +35,21 @@ const Form = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(value);
-    addUserAction(value, dispatch);
-    toast.success(`User ${value.name} added Successfully`);
+    // console.log("HandleSubmit", value);
+    editUserAction(value, dispatch);
+    toast.success(`User ${value.name} Edited Successfully`);
     setValue({ name: "", email: "", phone: "" });
     setTimeout(() => {
       navigate("/");
     }, 3000);
   };
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // console.log(users);
+    if (users && users.length > 0) {
+      let findUser = users.filter((user) => user.id === id);
+      if (findUser) setValue(findUser[0]);
+    }
+  }, []);
   return (
     <div>
       <ToastContainer />
@@ -78,10 +89,10 @@ const Form = () => {
             onChange={handleChange}
           />
         </div>
-        <button type="submit">ADD</button>
+        <button type="submit">EDIT</button>
       </form>
     </div>
   );
 };
 
-export default Form;
+export default Edit;
