@@ -14,7 +14,7 @@ const UserList = () => {
     return store.users;
   });
   const handleChange = (e) => {
-    console.log("HANDLE CHANGE");
+    // console.log("HANDLE CHANGE");
     setFilters((prev) => {
       return {
         ...prev,
@@ -49,10 +49,10 @@ const UserList = () => {
     }
   };
   useEffect(() => {
-    // setUser(getUsers);
-    console.log("getUsers in UserList", getUsers);
+    setUser(getUsers);
+    // console.log("getUsers in UserList", getUsers);
     handleAccording();
-  }, [filters.search, filters.sort]);
+  }, [filters.search, filters.sort, getUsers]);
   return (
     <div>
       <div>

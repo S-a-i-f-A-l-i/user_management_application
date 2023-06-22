@@ -7,14 +7,11 @@ let initialData = {
 const reducer = (state = initialData, action) => {
   switch (action.type) {
     case ADD_USER: {
-      console.log("PAYLOAD IN ADD", action.payload);
       state = {
         ...state,
         users: [...state.users, action.payload],
       };
-      console.log("state", state.users);
       localStorage.setItem("users", JSON.stringify(state.users));
-      console.log("localStorage", localStorage.getItem("users"));
       return state;
     }
     case EDIT_USER: {
@@ -27,20 +24,19 @@ const reducer = (state = initialData, action) => {
           }
           return user;
         });
-        console.log("RESULT IN EDIT REDUCER", state.users);
         localStorage.setItem("users", JSON.stringify(state.users));
         return state;
       }
     }
     case DELETE_USER: {
-      console.log("IN REDUCER", action.payload);
-      let users = state.users.filter((user) => {
-        console.log(user);
-        // if (user.id === action.payload) console.log("FINE");
+      let updatedUsers = state.users.filter((user) => {
         return user.id !== action.payload;
       });
-      localStorage.setItem("users", JSON.stringify(users));
-      return users;
+      localStorage.setItem("users", JSON.stringify(updatedUsers));
+      return {
+        ...state,
+        users: updatedUsers,
+      };
     }
     default: {
       return state;
