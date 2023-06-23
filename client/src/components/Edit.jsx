@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { useNavigate } from "react-router-dom";
+import style from "../assets/styles/Form.module.css";
 
 const Edit = () => {
   const navigate = useNavigate();
@@ -51,9 +52,9 @@ const Edit = () => {
     }
   }, []);
   return (
-    <div>
+    <div className={style.Wrapper}>
       <ToastContainer />
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={style.Form}>
         <div>
           <label>Name</label>
           <br />

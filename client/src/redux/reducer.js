@@ -27,6 +27,7 @@ const reducer = (state = initialData, action) => {
         localStorage.setItem("users", JSON.stringify(state.users));
         return state;
       }
+      break;
     }
     case DELETE_USER: {
       let updatedUsers = state.users.filter((user) => {

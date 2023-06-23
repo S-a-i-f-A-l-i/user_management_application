@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUserAction } from "../redux/action";
 import { useNavigate } from "react-router-dom";
+import style from "../assets/styles/UserList.module.css";
+
 const UserList = () => {
   const navigate = useNavigate();
   const [users, setUser] = useState([]);
@@ -44,7 +46,7 @@ const UserList = () => {
       if (filters.sort === "descending") {
         const reverseArr = filtersUser.reverse();
         setUser(reverseArr);
-        console.log(reverseArr);
+        // console.log(reverseArr);
       } else setUser(filtersUser);
     }
   };
@@ -54,8 +56,8 @@ const UserList = () => {
     handleAccording();
   }, [filters.search, filters.sort, getUsers]);
   return (
-    <div>
-      <div>
+    <div className={style.main}>
+      <div className={style.search}>
         <label>Search</label>
         <br />
         <input
@@ -65,7 +67,7 @@ const UserList = () => {
           onChange={handleChange}
         />
       </div>
-      <div>
+      <div className={style.sort}>
         <label>Sort</label>
         <br />
         <select name="sort" defaultValue={filters.sort} onChange={handleChange}>
@@ -73,7 +75,7 @@ const UserList = () => {
           <option value="descending">Descending ⬆</option>
         </select>
       </div>
-      <div>
+      <div className={style.tableSection}>
         {users && users.length > 0 ? (
           <table>
             <thead>
